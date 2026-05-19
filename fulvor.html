@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fulvor — Estrategia & Contenido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --amber:      #D4920F;
+  --amber-lt:   #F0AE2A;
+  --amber-dim:  #8A5E08;
+  --leather:    #8C5A32;
+  --carbon:     #0D0C0A;
+  --carbon2:    #161410;
+  --carbon3:    #1E1B15;
+  --carbon4:    #252118;
+  --cream:      #F5EFDF;
+  --cream-dim:  #C8BEA8;
+  --cream-faint:#7A7060;
+  --white:      #FDFAF4;
+  --serif: 'Cormorant Garamond', serif;
+  --display: 'Bebas Neue', sans-serif;
+  --sans: 'DM Sans', sans-serif;
+}
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  background: var(--carbon);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 3.5rem;
+  background: linear-gradient(to bottom, rgba(13,12,10,0.98) 60%, transparent);
+}
+
+.logo {
+  font-family: var(--display);
+  font-size: 1.55rem;
+  letter-spacing: 0.22em;
+  color: var(--amber);
+  cursor: pointer;
+  background: none; border: none;
+}
+
+.nav-links { display: flex; gap: 0.25rem; list-style: none; }
+
+.nav-links button {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.7rem; font-weight: 400;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--cream-faint);
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.nav-links button::after {
+  content: '';
+  position: absolute; bottom: 0; left: 1rem; right: 1rem;
+  height: 1px; background: var(--amber);
+  transform: scaleX(0); transition: transform 0.25s;
+}
+
+.nav-links button:hover { color: var(--cream-dim); }
+.nav-links button.active { color: var(--amber); }
+.nav-links button.active::after { transform: scaleX(1); }
+
+/* PANELS */
+.panel {
+  position: fixed; inset: 0;
+  overflow-y: auto;
+  opacity: 0; pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  padding-top: 5.5rem;
+  padding-bottom: 3rem;
+}
+
+.panel.active { opacity: 1; pointer-events: all; transform: none; }
+
+.panel::-webkit-scrollbar { width: 3px; }
+.panel::-webkit-scrollbar-thumb { background: var(--amber-dim); }
+
+/* HOME */
+#panel-home {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding-left: 3.5rem; padding-right: 3.5rem; padding-bottom: 5.5rem;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 55% 55% at 78% 38%, rgba(212,146,15,0.1) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 45% at 18% 72%, rgba(140,90,50,0.07) 0%, transparent 60%),
+    var(--carbon);
+}
+
+.home-line {
+  position: fixed; top: 0; bottom: 0; left: 60%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 8%, rgba(212,146,15,0.18) 25%, rgba(212,146,15,0.18) 75%, transparent 92%);
+  pointer-events: none;
+}
+
+.home-eyebrow {
+  font-size: 0.68rem; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 1.8rem;
+}
+
+.home-title {
+  font-family: var(--serif);
+  font-size: clamp(3.8rem, 8.5vw, 8rem);
+  font-weight: 300; line-height: 0.92; letter-spacing: -0.01em;
+  max-width: 58%; color: var(--white);
+}
+
+.home-title em { font-style: italic; color: var(--amber-lt); }
+
+.home-sub {
+  margin-top: 2.8rem; font-size: 0.95rem;
+  color: var(--cream-dim); max-width: 40ch; line-height: 1.75;
+}
+
+.home-ctas { margin-top: 3rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+.btn-primary {
+  background: var(--amber); color: var(--carbon);
+  font-family: var(--sans); font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  border: none; padding: 0.95rem 2.5rem; cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--amber-lt); }
+
+.btn-ghost {
+  background: none; color: var(--cream-dim);
+  font-family: var(--sans); font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: 1px solid rgba(200,190,168,0.2);
+  padding: 0.95rem 2.5rem; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+
+.home-stamp {
+  position: fixed; right: 3rem; bottom: 4rem;
+  font-family: var(--display); font-size: 0.6rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(212,146,15,0.2); writing-mode: vertical-rl;
+}
+
+/* SHARED INNER */
+.panel-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 1.5rem 3.5rem 4rem;
+}
+
+.panel-header {
+  margin-bottom: 3.5rem; padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(212,146,15,0.15);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+}
+
+.panel-label {
+  font-size: 0.65rem; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 0.75rem;
+}
+
+.panel-title {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 300; line-height: 1.05; color: var(--white);
+}
+.panel-title em { font-style: italic; color: var(--amber-lt); }
+
+.panel-desc {
+  font-size: 0.88rem; color: var(--cream-dim);
+  max-width: 38ch; line-height: 1.75; text-align: right;
+}
+
+/* CARDS */
+.cards-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+}
+
+.card {
+  background: var(--carbon2);
+  border: 1px solid rgba(212,146,15,0.1);
+  padding: 2.5rem; position: relative;
+  transition: border-color 0.3s, background 0.3s;
+}
+.card:hover { background: var(--carbon3); border-color: rgba(212,146,15,0.28); }
+
+.card-top-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(to right, var(--amber), var(--leather));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.35s;
+}
+.card:hover .card-top-bar { transform: scaleX(1); }
+
+.card-num {
+  font-family: var(--display); font-size: 4.5rem;
+  color: rgba(212,146,15,0.07); line-height: 1;
+  position: absolute; top: 1.2rem; right: 1.5rem;
+}
+
+.card-tag {
+  font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 0.75rem;
+}
+
+.card-name {
+  font-family: var(--serif); font-size: 1.65rem; font-weight: 400;
+  color: var(--white); margin-bottom: 1rem; max-width: 22ch; line-height: 1.2;
+}
+
+.card-body { font-size: 0.82rem; color: var(--cream-dim); line-height: 1.75; margin-bottom: 1.6rem; }
+
+.card-price { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--cream); }
+.card-price small {
+  font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.08em;
+  color: var(--cream-faint); margin-left: 0.4rem;
+}
+
+.card-features {
+  margin-top: 1.4rem; padding-top: 1.4rem;
+  border-top: 1px solid rgba(212,146,15,0.1);
+  list-style: none; display: flex; flex-direction: column; gap: 0.5rem;
+}
+.card-features li {
+  font-size: 0.78rem; color: var(--cream-dim);
+  display: flex; gap: 0.7rem; align-items: flex-start; line-height: 1.5;
+}
+.card-features li::before { content: '—'; color: var(--amber); flex-shrink: 0; }
+
+/* CARD VARIANTS */
+/* Tarjetas de servicios */
+.card-gold,
+.card-leather,
+.card-featured,
+.card-cream {
+  background: #252219;
+  border-color: rgba(201,146,58,0.14);
+}
+.card-gold:hover,
+.card-leather:hover,
+.card-featured:hover,
+.card-cream:hover {
+  background: #2c271e;
+  border-color: rgba(201,146,58,0.28);
+}
+
+.card-gold .card-name,
+.card-leather .card-name,
+.card-featured .card-name,
+.card-cream .card-name { color: #e8dcc8; }
+
+.card-gold .card-body,
+.card-leather .card-body,
+.card-featured .card-body,
+.card-cream .card-body { color: #a89880; }
+
+.card-gold .card-features li,
+.card-leather .card-features li,
+.card-featured .card-features li,
+.card-cream .card-features li { color: #a89880; }
+
+.card-gold .card-price,
+.card-leather .card-price,
+.card-featured .card-price,
+.card-cream .card-price { color: #c9923a; }
+
+.card-gold .card-price small,
+.card-leather .card-price small,
+.card-featured .card-price small,
+.card-cream .card-price small { color: #8a6830; }
+
+.card-gold .card-tag,
+.card-leather .card-tag,
+.card-featured .card-tag,
+.card-cream .card-tag { color: #c9923a; }
+
+.card-gold .card-features li::before,
+.card-leather .card-features li::before,
+.card-featured .card-features li::before,
+.card-cream .card-features li::before { color: #c9923a; }
+
+.card-gold .card-num,
+.card-leather .card-num,
+.card-featured .card-num,
+.card-cream .card-num { color: rgba(201,146,58,0.18); }
+
+/* Tarjeta recomendada: borde #c9923a al 60% */
+.card-featured {
+  border-color: rgba(201,146,58,0.6);
+  box-shadow: none;
+}
+.card-featured .card-top-bar { transform: scaleX(1); }
+.card-featured:hover { border-color: rgba(201,146,58,0.8); }
+
+/* CTA BUTTON INSIDE CARD */
+.card-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  margin-top: 1.6rem;
+  background: none; border: none;
+  border-bottom: 1px solid rgba(201,146,58,0.4);
+  padding-bottom: 0.18rem;
+  color: #c9923a;
+  font-family: var(--sans); font-size: 0.68rem; font-weight: 400;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s;
+}
+.card-cta:hover { color: #dba84e; border-color: rgba(201,146,58,0.7); }
+.card-cta::after { content: '→'; font-size: 0.75rem; }
+
+/* PROCESO */
+#panel-proceso { background: var(--carbon2); }
+
+.proceso-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+}
+
+.proceso-quote {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 300; font-style: italic;
+  color: var(--cream-dim); line-height: 1.55;
+  border-left: 2px solid var(--amber); padding-left: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.fases-wrap { display: flex; flex-direction: column; position: relative; }
+
+.fases-wrap::before {
+  content: ''; position: absolute;
+  left: 0.42rem; top: 1.5rem; bottom: 1.5rem;
+  width: 1px; background: linear-gradient(to bottom, var(--amber-dim), rgba(138,94,8,0.15));
+}
+
+.fase-item {
+  display: grid; grid-template-columns: 2.5rem 1fr; gap: 1.5rem;
+  padding: 1.8rem 0.5rem 1.8rem 0;
+  border-bottom: 1px solid rgba(212,146,15,0.06);
+  transition: background 0.2s; border-radius: 3px;
+}
+.fase-item:last-child { border-bottom: none; }
+.fase-item:hover { background: rgba(212,146,15,0.03); }
+
+.fase-dot-wrap {
+  display: flex; align-items: flex-start; padding-top: 0.35rem; position: relative; z-index: 1;
+}
+.fase-dot {
+  width: 0.85rem; height: 0.85rem; border-radius: 50%;
+  border: 2px solid var(--amber); background: var(--carbon2); flex-shrink: 0;
+  transition: background 0.2s;
+}
+.fase-item:hover .fase-dot { background: var(--amber); }
+
+.fase-num { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--amber); text-transform: uppercase; margin-bottom: 0.3rem; }
+.fase-name { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: var(--white); margin-bottom: 0.5rem; }
+.fase-desc { font-size: 0.8rem; color: var(--cream-dim); line-height: 1.7; }
+
+/* PORTAFOLIO */
+.portfolio-intro {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 3rem; margin-bottom: 3rem; padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(212,146,15,0.15);
+}
+.portfolio-note { font-size: 0.8rem; color: var(--cream-faint); font-style: italic; max-width: 34ch; line-height: 1.65; text-align: right; }
+
+.portfolio-filters { display: flex; gap: 0.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.filter-btn {
+  background: none; border: 1px solid rgba(212,146,15,0.18); color: var(--cream-faint);
+  font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.45rem 1.1rem; cursor: pointer; transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active { border-color: var(--amber); color: var(--amber); }
+
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+.portfolio-item {
+  background: var(--carbon2); border: 1px solid rgba(212,146,15,0.08);
+  overflow: hidden; cursor: pointer; transition: border-color 0.3s;
+}
+.portfolio-item:hover { border-color: rgba(212,146,15,0.3); }
+.portfolio-item:hover .portfolio-thumb-overlay { opacity: 1; }
+
+.portfolio-thumb {
+  width: 100%; aspect-ratio: 4/3; background: var(--carbon3);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.portfolio-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.portfolio-thumb-placeholder { font-family: var(--serif); font-size: 2.5rem; color: rgba(212,146,15,0.12); }
+
+.portfolio-thumb-overlay {
+  position: absolute; inset: 0; background: rgba(212,146,15,0.08);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.3s;
+}
+.overlay-icon { font-size: 1.5rem; color: var(--amber); }
+
+.portfolio-info { padding: 1.2rem 1.4rem; }
+.portfolio-type { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.3rem; }
+.portfolio-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: var(--white); line-height: 1.3; }
+
+/* CONTACTO */
+#panel-contacto {
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(212,146,15,0.07) 0%, transparent 65%),
+    var(--carbon2);
+}
+
+.contacto-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+  max-width: 1200px; margin: 0 auto; padding: 1.5rem 3.5rem 4rem;
+}
+
+.contacto-tagline {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 300; line-height: 1.15; color: var(--white); margin-bottom: 1.8rem;
+}
+.contacto-tagline em { font-style: italic; color: var(--amber-lt); }
+
+.contacto-body { font-size: 0.9rem; color: var(--cream-dim); line-height: 1.8; margin-bottom: 2.5rem; max-width: 42ch; }
+
+.contact-options { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.contact-option {
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 1.1rem 1.4rem;
+  background: var(--carbon3); border: 1px solid rgba(212,146,15,0.1);
+  text-decoration: none; cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+}
+.contact-option:hover { background: var(--carbon4); border-color: rgba(212,146,15,0.32); }
+
+.contact-icon { font-size: 1.3rem; flex-shrink: 0; }
+.contact-label { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.15rem; }
+.contact-value { font-family: var(--serif); font-size: 1rem; color: var(--cream); }
+
+.contacto-right {
+  background: var(--carbon3); border: 1px solid rgba(212,146,15,0.12); padding: 2.5rem;
+}
+
+.form-title { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; color: var(--white); margin-bottom: 0.4rem; }
+.form-sub { font-size: 0.78rem; color: var(--cream-faint); margin-bottom: 2rem; line-height: 1.6; }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-label { display: block; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.45rem; }
+
+.form-input, .form-select, .form-textarea {
+  width: 100%; background: var(--carbon2);
+  border: 1px solid rgba(212,146,15,0.12); color: var(--cream);
+  font-family: var(--sans); font-size: 0.85rem; font-weight: 300;
+  padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s; appearance: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: rgba(212,146,15,0.38); }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--cream-faint); }
+.form-textarea { resize: vertical; min-height: 5rem; }
+.form-select option { background: var(--carbon2); }
+
+.form-submit {
+  width: 100%; background: var(--amber); color: var(--carbon);
+  font-family: var(--sans); font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  border: none; padding: 1rem; cursor: pointer; margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+.form-submit:hover { background: var(--amber-lt); }
+.form-note { margin-top: 1rem; font-size: 0.67rem; color: var(--cream-faint); text-align: center; line-height: 1.5; }
+
+/* FOOTER STRIP */
+.footer-strip {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 2.4rem; background: rgba(13,12,10,0.97);
+  border-top: 1px solid rgba(212,146,15,0.08);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3.5rem; z-index: 400;
+}
+.footer-left { font-family: var(--serif); font-size: 0.75rem; font-style: italic; color: rgba(122,112,96,0.45); }
+.footer-right { font-size: 0.62rem; letter-spacing: 0.08em; color: rgba(122,112,96,0.3); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links button { font-size: 0.62rem; padding: 0.45rem 0.6rem; letter-spacing: 0.1em; }
+  .panel-inner, .contacto-grid { padding-left: 1.5rem; padding-right: 1.5rem; }
+  #panel-home { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .home-title { font-size: clamp(2.8rem, 10vw, 5rem); max-width: 100%; }
+  .home-line, .home-stamp { display: none; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .proceso-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .portfolio-grid { grid-template-columns: 1fr 1fr; }
+  .panel-header { flex-direction: column; align-items: flex-start; }
+  .panel-desc { text-align: left; }
+  .contacto-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .portfolio-intro { flex-direction: column; align-items: flex-start; }
+  .portfolio-note { text-align: left; }
+  .footer-strip { padding: 0 1.5rem; }
+}
+@media (max-width: 560px) {
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .nav-links button { padding: 0.4rem 0.35rem; font-size: 0.58rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="logo" onclick="showPanel('home')">FULVOR</button>
+  <ul class="nav-links">
+    <li><button onclick="showPanel('home')">Inicio</button></li>
+    <li><button onclick="showPanel('servicios')">Servicios</button></li>
+    <li><button onclick="showPanel('proceso')">Proceso</button></li>
+    <li><button onclick="showPanel('portafolio')">Portafolio</button></li>
+    <li><button onclick="showPanel('contacto')">Contacto</button></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div class="panel active" id="panel-home">
+  <div class="home-line"></div>
+  <p class="home-eyebrow">Estrategia de contenido · Estructura de negocio</p>
+  <h1 class="home-title">Tu negocio<br>entendido<br>como <em>sistema.</em></h1>
+  <p class="home-sub">Fulvor trabaja con emprendedores hispanohablantes que saben lo que hacen, pero aún no tienen claridad sobre cómo escalarlo.</p>
+  <div class="home-ctas">
+    <button class="btn-primary" onclick="showPanel('servicios')">Ver servicios</button>
+    <button class="btn-ghost" onclick="showPanel('contacto')">Iniciar diagnóstico</button>
+  </div>
+  <p class="home-stamp">Estrategia · Contenido · Estructura</p>
+</div>
+
+<!-- SERVICIOS -->
+<div class="panel" id="panel-servicios">
+  <div class="panel-inner">
+    <div class="panel-header">
+      <div>
+        <p class="panel-label">Lo que construimos juntos</p>
+        <h2 class="panel-title">Servicios <em>disponibles.</em></h2>
+      </div>
+      <p class="panel-desc">Cada servicio se construye desde el diagnóstico de tu negocio específico, no desde plantillas.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card card-gold">
+        <div class="card-top-bar"></div>
+        <div class="card-num">01</div>
+        <p class="card-tag">Servicio uno</p>
+        <h3 class="card-name">Estrategia de Contenido</h3>
+        <p class="card-body">Análisis de tu negocio, definición de cliente ideal, estructura de pilares, calendario de 30 días y proceso replicable semana tras semana. No una lista de ideas, un sistema que puedes ejecutar solo.</p>
+        <div class="card-price">$80 — $120 <small>por entregable</small></div>
+        <ul class="card-features">
+          <li>Definición de cliente ideal con datos reales</li>
+          <li>Pilares de contenido por plataforma</li>
+          <li>Calendario de 30 días listo para ejecutar</li>
+          <li>10 ganchos listos para usar</li>
+        </ul>
+        <button class="card-cta" onclick="irAServicio('estrategia')">Quiero este servicio</button>
+      </div>
+      <div class="card card-leather">
+        <div class="card-top-bar"></div>
+        <div class="card-num">02</div>
+        <p class="card-tag">Servicio dos</p>
+        <h3 class="card-name">Plan de Negocio Estructurado</h3>
+        <p class="card-body">Diagnóstico completo, mapa de flujo operativo, identificación de dónde se pierde tiempo y dinero, y hoja de ruta con pasos concretos ordenados por prioridad.</p>
+        <div class="card-price">$100 — $150 <small>por entregable</small></div>
+        <ul class="card-features">
+          <li>Diagnóstico en 5 dimensiones</li>
+          <li>Mapa de flujo operativo completo</li>
+          <li>Oportunidades inmediatas priorizadas</li>
+          <li>Hoja de ruta de implementación accionable</li>
+        </ul>
+        <button class="card-cta" onclick="irAServicio('plan')">Quiero este servicio</button>
+      </div>
+      <div class="card card-featured">
+        <div class="card-top-bar"></div>
+        <div class="card-num">03</div>
+        <p class="card-tag">Servicio tres · Recomendado</p>
+        <h3 class="card-name">Paquete Combinado</h3>
+        <p class="card-body">Estrategia de contenido más plan de negocio integrados desde el mismo diagnóstico. Un negocio mal estructurado no puede comunicarse bien. Fulvor trabaja las dos dimensiones a la vez.</p>
+        <div class="card-price">$160 — $200 <small>20% de ahorro</small></div>
+        <ul class="card-features">
+          <li>Todo lo de los servicios 1 y 2</li>
+          <li>Construcción integrada, mayor coherencia</li>
+          <li>Un solo intake para los dos entregables</li>
+        </ul>
+        <button class="card-cta" onclick="irAServicio('combinado')">Quiero este servicio</button>
+      </div>
+      <div class="card card-cream">
+        <div class="card-top-bar"></div>
+        <div class="card-num">04</div>
+        <p class="card-tag">Complemento mensual</p>
+        <h3 class="card-name">Seguimiento Mensual</h3>
+        <p class="card-body">Revisión mensual de tu avance contra el plan entregado. Identifica desviaciones y propone 2 a 3 ajustes concretos para el mes siguiente. Entregable escrito, sin llamadas.</p>
+        <div class="card-price">$30 <small>/ mes</small></div>
+        <ul class="card-features">
+          <li>Revisión de avance vs. plan</li>
+          <li>Diagnóstico de desviaciones</li>
+          <li>2 a 3 ajustes concretos para el mes</li>
+        </ul>
+        <button class="card-cta" onclick="irAServicio('seguimiento')">Quiero este servicio</button>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;text-align:center;">
+      <button class="btn-primary" onclick="showPanel('contacto')">Iniciar diagnóstico gratuito</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESO -->
+<div class="panel" id="panel-proceso">
+  <div class="panel-inner">
+    <div class="panel-header">
+      <div>
+        <p class="panel-label">Cómo funciona</p>
+        <h2 class="panel-title">El proceso que<br><em>garantiza</em> el resultado.</h2>
+      </div>
+      <p class="panel-desc">Cinco fases en orden fijo. Ninguna puede saltarse. El diagnóstico siempre precede a la solución.</p>
+    </div>
+    <div class="proceso-grid">
+      <div class="fases-wrap">
+        <div class="fase-item">
+          <div class="fase-dot-wrap"><div class="fase-dot"></div></div>
+          <div>
+            <p class="fase-num">Fase 01</p>
+            <h4 class="fase-name">Intake</h4>
+            <p class="fase-desc">Cuestionario estructurado que produce datos accionables. No es una conversación libre, es el documento que determina la calidad de todo lo que sigue.</p>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="fase-dot-wrap"><div class="fase-dot"></div></div>
+          <div>
+            <p class="fase-num">Fase 02</p>
+            <h4 class="fase-name">Diagnóstico</h4>
+            <p class="fase-desc">Análisis en cinco dimensiones: qué funciona, qué falla, dónde se pierde tiempo, dónde se pierde dinero, y qué oportunidad existe ahora mismo.</p>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="fase-dot-wrap"><div class="fase-dot"></div></div>
+          <div>
+            <p class="fase-num">Fase 03</p>
+            <h4 class="fase-name">Construcción</h4>
+            <p class="fase-desc">Producción del entregable según el servicio contratado. Todo se deriva directamente del intake y el diagnóstico. Nada se inventa, nada es genérico.</p>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="fase-dot-wrap"><div class="fase-dot"></div></div>
+          <div>
+            <p class="fase-num">Fase 04</p>
+            <h4 class="fase-name">Revisión</h4>
+            <p class="fase-desc">Filtro de calidad con una sola pregunta: ¿puede el cliente actuar con este documento mañana sin necesitar explicación adicional? Si la respuesta es no, se corrige.</p>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="fase-dot-wrap"><div class="fase-dot"></div></div>
+          <div>
+            <p class="fase-num">Fase 05</p>
+            <h4 class="fase-name">Entrega y cierre</h4>
+            <p class="fase-desc">El entregable llega con un resumen de tres puntos: qué tienes, por dónde empezar, y qué preguntarle a Fulvor si algo no queda claro.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <blockquote class="proceso-quote">
+          "Fulvor no llega con un modelo predefinido y adapta tu negocio a él. Construye la solución desde adentro hacia afuera, usando tu realidad como materia prima."
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTAFOLIO -->
+<div class="panel" id="panel-portafolio">
+  <div class="panel-inner">
+    <div class="portfolio-intro">
+      <div>
+        <p class="panel-label">Trabajo real</p>
+        <h2 class="panel-title">Portafolio <em>& muestras.</em></h2>
+      </div>
+      <p class="portfolio-note">Los primeros entregables se están construyendo. Esta sección se actualiza con cada trabajo completado.</p>
+    </div>
+    <div class="portfolio-filters">
+      <button class="filter-btn active" onclick="filterPortfolio('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="filterPortfolio('estrategia',this)">Estrategia de contenido</button>
+      <button class="filter-btn" onclick="filterPortfolio('plan',this)">Plan de negocio</button>
+      <button class="filter-btn" onclick="filterPortfolio('combinado',this)">Paquete combinado</button>
+    </div>
+    <div class="portfolio-grid" id="portfolio-grid">
+      <div class="portfolio-item" data-type="estrategia">
+        <div class="portfolio-thumb">
+          <span class="portfolio-thumb-placeholder">◈</span>
+          <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-type">Estrategia de contenido · Muestra</p>
+          <p class="portfolio-name">Negocio de servicios de bienestar — Presencia digital desde cero</p>
+        </div>
+      </div>
+      <div class="portfolio-item" data-type="plan">
+        <div class="portfolio-thumb">
+          <span class="portfolio-thumb-placeholder">◈</span>
+          <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-type">Plan de negocio · Muestra</p>
+          <p class="portfolio-name">Emprendedor de servicios digitales — Estructura operativa y prioridades</p>
+        </div>
+      </div>
+      <div class="portfolio-item" data-type="combinado">
+        <div class="portfolio-thumb">
+          <span class="portfolio-thumb-placeholder">◈</span>
+          <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-type">Paquete combinado · Muestra</p>
+          <p class="portfolio-name">Comercio local con operación activa — Estructura y presencia digital integradas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTO -->
+<div class="panel" id="panel-contacto">
+  <div class="contacto-grid">
+    <div>
+      <p class="panel-label">El primer paso</p>
+      <h2 class="contacto-tagline">El diagnóstico<br>no tiene <em>costo.</em><br>El estancamiento, sí.</h2>
+      <p class="contacto-body">No hace falta que tengas todo claro. Solo cuéntanos dónde estás y cuál es el problema que no puedes resolver solo. De ahí se construye todo.</p>
+      <div class="contact-options">
+        <a class="contact-option" id="wa-link" href="#" target="_blank">
+          <span class="contact-icon">💬</span>
+          <div>
+            <p class="contact-label">WhatsApp</p>
+            <p class="contact-value">Escríbenos directo</p>
+          </div>
+        </a>
+        <a class="contact-option" id="tiktok-link" href="#" target="_blank">
+          <span class="contact-icon">▶</span>
+          <div>
+            <p class="contact-label">TikTok</p>
+            <p class="contact-value">@fulvor</p>
+          </div>
+        </a>
+        <a class="contact-option" id="fb-link" href="#" target="_blank">
+          <span class="contact-icon">◈</span>
+          <div>
+            <p class="contact-label">Facebook</p>
+            <p class="contact-value">Fulvor</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="contacto-right">
+      <h3 class="form-title">Cuéntanos sobre tu negocio</h3>
+      <p class="form-sub">Respondemos en menos de 24 horas con una evaluación inicial sin compromiso.</p>
+      <div class="form-group">
+        <label class="form-label">Nombre</label>
+        <input class="form-input" id="f-nombre" type="text" placeholder="Tu nombre o el del negocio">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Servicio de interés</label>
+        <select class="form-select" id="f-servicio">
+          <option value="" disabled selected>Selecciona un servicio</option>
+          <option value="estrategia">Estrategia de Contenido — $80 a $120</option>
+          <option value="plan">Plan de Negocio Estructurado — $100 a $150</option>
+          <option value="combinado">Paquete Combinado — $160 a $200</option>
+          <option value="seguimiento">Seguimiento Mensual — $30/mes</option>
+          <option value="indefinido">No lo tengo claro todavía</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Qué no puedes resolver solo ahora mismo?</label>
+        <textarea class="form-textarea" id="f-mensaje" placeholder="Describe brevemente tu negocio y el principal problema que enfrentas..."></textarea>
+      </div>
+      <button class="form-submit" onclick="enviarWA()">Enviar por WhatsApp</button>
+      <p class="form-note">El botón abre WhatsApp con tu mensaje listo. Sin pasos extra.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer-strip">
+  <p class="footer-left">Piensa antes de hablar. Entrega antes de prometer.</p>
+  <p class="footer-right">© 2026 Fulvor</p>
+</div>
+
+<script>
+// ── DEFAULTS si localStorage no tiene nada ──
+const DEFAULTS = {
+  whatsapp: 'TUNUMERO',
+  tiktok:   'https://tiktok.com/@fulvor',
+  facebook: 'https://facebook.com/fulvor'
+};
+
+function getConfig() {
+  try {
+    const raw = localStorage.getItem('fulvor_config');
+    return raw ? { ...DEFAULTS, ...JSON.parse(raw) } : { ...DEFAULTS };
+  } catch { return { ...DEFAULTS }; }
+}
+
+function getPortfolio() {
+  try {
+    const raw = localStorage.getItem('fulvor_portfolio');
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+// ── APLICAR CONTACTO DESDE LOCALSTORAGE ──
+function aplicarContacto() {
+  const cfg = getConfig();
+
+  const waLink = document.getElementById('wa-link');
+  waLink.href = cfg.whatsapp && cfg.whatsapp !== 'TUNUMERO'
+    ? `https://wa.me/${cfg.whatsapp.replace(/\D/g, '')}`
+    : '#';
+  waLink.querySelector('.contact-value').textContent =
+    cfg.whatsapp && cfg.whatsapp !== 'TUNUMERO' ? `+${cfg.whatsapp.replace(/\D/g, '')}` : 'Escríbenos directo';
+
+  const tiktokLink = document.getElementById('tiktok-link');
+  tiktokLink.href = cfg.tiktok || '#';
+  tiktokLink.querySelector('.contact-value').textContent =
+    cfg.tiktok ? cfg.tiktok.replace(/^https?:\/\/(www\.)?/i, '') : '@fulvor';
+
+  const fbLink = document.getElementById('fb-link');
+  fbLink.href = cfg.facebook || '#';
+  fbLink.querySelector('.contact-value').textContent =
+    cfg.facebook ? cfg.facebook.replace(/^https?:\/\/(www\.)?/i, '') : 'Fulvor';
+}
+
+// ── PORTAFOLIO PÚBLICO DESDE LOCALSTORAGE ──
+const TIPO_LABELS = {
+  estrategia: 'Estrategia de contenido',
+  plan:       'Plan de negocio',
+  combinado:  'Paquete combinado'
+};
+
+function renderPortafolioPublico() {
+  const piezas = getPortfolio();
+  const grid = document.getElementById('portfolio-grid');
+  if (!piezas.length) return; // mantiene los placeholders estáticos
+
+  grid.innerHTML = piezas.map(p => {
+    const label = TIPO_LABELS[p.tipo] || p.tipo;
+    const thumbContent = p.esImagen
+      ? `<img src="${p.archivoData}" alt="${p.titulo}" loading="lazy">`
+      : `<span style="font-size:2.8rem;color:rgba(212,146,15,0.35)">📄</span>`;
+    return `
+      <div class="portfolio-item" data-type="${p.tipo}" onclick="abrirPieza('${p.id}')">
+        <div class="portfolio-thumb">
+          ${thumbContent}
+          <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-type">${label}</p>
+          <p class="portfolio-name">${p.titulo}</p>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── LIGHTBOX / VISOR ──
+function abrirPieza(id) {
+  const piezas = getPortfolio();
+  const p = piezas.find(x => x.id === id);
+  if (!p) return;
+
+  if (p.esImagen) {
+    // Lightbox simple
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.92);
+      display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:2rem`;
+    overlay.innerHTML = `<img src="${p.archivoData}" alt="${p.titulo}"
+      style="max-width:100%;max-height:90vh;object-fit:contain;border:1px solid rgba(212,146,15,0.2)">`;
+    overlay.addEventListener('click', () => overlay.remove());
+    document.body.appendChild(overlay);
+  } else {
+    // PDF → blob URL en nueva pestaña
+    try {
+      const byteStr = atob(p.archivoData.split(',')[1]);
+      const bytes = new Uint8Array(byteStr.length);
+      for (let i = 0; i < byteStr.length; i++) bytes[i] = byteStr.charCodeAt(i);
+      const blob = new Blob([bytes], { type: p.archivoMime || 'application/pdf' });
+      window.open(URL.createObjectURL(blob), '_blank');
+    } catch { alert('No se pudo abrir el archivo.'); }
+  }
+}
+
+// ── NAVEGACIÓN POR PANELES ──
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if (panel) { panel.classList.add('active'); panel.scrollTop = 0; }
+  const btn = document.querySelector(`.nav-links button[onclick="showPanel('${id}')"]`);
+  if (btn) btn.classList.add('active');
+}
+
+// ── FILTROS PORTAFOLIO ──
+function filterPortfolio(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.portfolio-item').forEach(item => {
+    item.style.display = (type === 'todos' || item.dataset.type === type) ? '' : 'none';
+  });
+}
+
+// ── FORMULARIO → WHATSAPP ──
+function enviarWA() {
+  const cfg    = getConfig();
+  const nombre  = document.getElementById('f-nombre').value.trim() || 'sin nombre';
+  const servicio = document.getElementById('f-servicio').value || 'por definir';
+  const mensaje  = document.getElementById('f-mensaje').value.trim() || '(sin descripción)';
+  const texto = `Hola Fulvor, me llamo *${nombre}*.\n\nServicio de interés: ${servicio}\n\nMi situación: ${mensaje}`;
+  const num = cfg.whatsapp !== 'TUNUMERO' ? cfg.whatsapp.replace(/\D/g, '') : '';
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+// ── NAVEGAR A CONTACTO Y PRESELECCIONAR SERVICIO ──
+function irAServicio(valor) {
+  showPanel('contacto');
+  const sel = document.getElementById('f-servicio');
+  if (sel && valor) sel.value = valor;
+  sel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── INIT ──
+aplicarContacto();
+renderPortafolioPublico();
+</script>
+</body>
+</html>
