@@ -254,6 +254,18 @@ body::after {
         <div class="upload-preview" id="upload-preview"></div>
       </div>
 
+      <div class="form-group">
+        <label class="form-label">Imagen de portada <span style="font-family:var(--sans);font-size:0.6rem;font-weight:300;letter-spacing:0.1em;color:var(--cream-faint);text-transform:none">(PNG o JPG · Opcional)</span></label>
+        <div class="drop-zone" id="cover-drop-zone" style="padding:1.75rem 2rem">
+          <input type="file" id="cover-input" accept="image/png,image/jpeg"
+                 onchange="manejarPortada(this.files[0])">
+          <div class="dz-icon" style="font-size:1.4rem;margin-bottom:0.5rem">◈</div>
+          <p class="dz-text" style="font-size:0.9rem">Arrastra la portada o haz clic</p>
+          <p class="dz-sub">PNG o JPG · Máximo 1 MB</p>
+        </div>
+        <div class="upload-preview" id="cover-preview"></div>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Título del trabajo</label>
@@ -266,6 +278,7 @@ body::after {
             <option value="estrategia">Estrategia de contenido</option>
             <option value="plan">Plan de negocio</option>
             <option value="combinado">Paquete combinado</option>
+            <option value="diagnostico">Diagnóstico Express</option>
           </select>
         </div>
       </div>
@@ -302,10 +315,11 @@ body::after {
 <script>
 const LS_CONFIG    = 'fulvor_config';
 const LS_PORTFOLIO = 'fulvor_portfolio';
-const TIPO_LABEL   = {
-  estrategia: 'Estrategia de contenido',
-  plan:       'Plan de negocio',
-  combinado:  'Paquete combinado'
+const TIPO_LABEL = {
+  estrategia:  'Estrategia de contenido',
+  plan:        'Plan de negocio',
+  combinado:   'Paquete combinado',
+  diagnostico: 'Diagnóstico Express'
 };
 
 /* ─── CONFIGURACIÓN ─── */
@@ -326,6 +340,31 @@ function guardarConfig() {
 
 /* ─── ARCHIVO ─── */
 let archivoActual = null;
+let portadaActual = null;
+
+function manejarPortada(file) {
+  if (!file) return;
+  const MAX = 1 * 1024 * 1024;
+  if (file.size > MAX) {
+    mostrarEstado('upload-status',
+      `⚠ La portada pesa ${(file.size/1024/1024).toFixed(1)} MB. El máximo es 1 MB. Comprime e intenta de nuevo.`,
+      'error');
+    portadaActual = null;
+    document.getElementById('cover-preview').style.display = 'none';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    portadaActual = { data: e.target.result, nombre: file.name };
+    const prev = document.getElementById('cover-preview');
+    prev.style.display = 'block';
+    prev.innerHTML = `
+      <img src="${e.target.result}"
+           style="max-width:100%;max-height:160px;object-fit:contain;display:block;margin:0 auto">
+      <p style="margin-top:0.5rem;font-size:0.68rem;color:var(--cream-faint)">${file.name}</p>`;
+  };
+  reader.readAsDataURL(file);
+}
 
 function manejarArchivo(file) {
   if (!file) return;
@@ -391,6 +430,8 @@ function agregarAlPortafolio() {
     archivoNombre: archivoActual.nombre,
     archivoMime:   archivoActual.mime,
     esImagen:      archivoActual.esImagen,
+    coverData:     portadaActual ? portadaActual.data   : null,
+    coverNombre:   portadaActual ? portadaActual.nombre : null,
     fecha:         new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })
   });
 
@@ -406,8 +447,11 @@ function agregarAlPortafolio() {
   // Reset formulario
   archivoActual = null;
   document.getElementById('a-titulo').value           = '';
-  document.getElementById('file-input').value         = '';
-  document.getElementById('upload-preview').style.display = 'none';
+  document.getElementById('file-input').value              = '';
+  document.getElementById('upload-preview').style.display   = 'none';
+  portadaActual = null;
+  document.getElementById('cover-input').value              = '';
+  document.getElementById('cover-preview').style.display    = 'none';
   mostrarEstado('upload-status', '✓ Trabajo agregado al portafolio');
   renderAdminPortfolio();
 }
@@ -441,9 +485,11 @@ function renderAdminPortfolio() {
   container.innerHTML = items.map(item => `
     <div class="admin-item">
       <div class="admin-thumb">
-        ${item.esImagen
-          ? `<img src="${item.archivoData}" alt="${item.titulo}">`
-          : `<span class="admin-thumb-pdf">PDF</span>`}
+        ${item.coverData
+          ? `<img src="${item.coverData}" alt="${item.titulo}">`
+          : item.esImagen
+            ? `<img src="${item.archivoData}" alt="${item.titulo}">`
+            : `<span class="admin-thumb-pdf">PDF</span>`}
       </div>
       <div>
         <p class="admin-item-type">${TIPO_LABEL[item.tipo] || item.tipo}</p>
@@ -463,6 +509,16 @@ dropZone.addEventListener('drop', e => {
   dropZone.classList.remove('over');
   const file = e.dataTransfer.files[0];
   if (file) manejarArchivo(file);
+});
+
+const coverDropZone = document.getElementById('cover-drop-zone');
+coverDropZone.addEventListener('dragover',  e => { e.preventDefault(); coverDropZone.classList.add('over'); });
+coverDropZone.addEventListener('dragleave', ()  => coverDropZone.classList.remove('over'));
+coverDropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  coverDropZone.classList.remove('over');
+  const file = e.dataTransfer.files[0];
+  if (file) manejarPortada(file);
 });
 
 /* ─── UTILIDAD ─── */

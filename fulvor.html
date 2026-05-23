@@ -703,11 +703,14 @@ nav {
       <button class="filter-btn" onclick="filterPortfolio('estrategia',this)">Estrategia de contenido</button>
       <button class="filter-btn" onclick="filterPortfolio('plan',this)">Plan de negocio</button>
       <button class="filter-btn" onclick="filterPortfolio('combinado',this)">Paquete combinado</button>
+      <button class="filter-btn" onclick="filterPortfolio('diagnostico',this)">Diagnóstico Express</button>
     </div>
     <div class="portfolio-grid" id="portfolio-grid">
       <div class="portfolio-item" data-type="estrategia">
         <div class="portfolio-thumb">
-          <span class="portfolio-thumb-placeholder">◈</span>
+          <img src="Fulvor_Portafolio_Caso_01_Estrategia_Contenido_cover.png" alt="Estrategia de contenido" loading="lazy"
+               onerror="this.style.display='none';this.parentElement.querySelector('.portfolio-thumb-placeholder').style.display='block'">
+          <span class="portfolio-thumb-placeholder" style="display:none">◈</span>
           <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
         </div>
         <div class="portfolio-info">
@@ -717,7 +720,9 @@ nav {
       </div>
       <div class="portfolio-item" data-type="plan">
         <div class="portfolio-thumb">
-          <span class="portfolio-thumb-placeholder">◈</span>
+          <img src="Fulvor_Portafolio_Caso_02_Plan_Negocio_cover.png" alt="Plan de negocio" loading="lazy"
+               onerror="this.style.display='none';this.parentElement.querySelector('.portfolio-thumb-placeholder').style.display='block'">
+          <span class="portfolio-thumb-placeholder" style="display:none">◈</span>
           <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
         </div>
         <div class="portfolio-info">
@@ -727,12 +732,26 @@ nav {
       </div>
       <div class="portfolio-item" data-type="combinado">
         <div class="portfolio-thumb">
-          <span class="portfolio-thumb-placeholder">◈</span>
+          <img src="Fulvor_Portafolio_Caso_04_Paquete_Combinado_cover.png" alt="Paquete combinado" loading="lazy"
+               onerror="this.style.display='none';this.parentElement.querySelector('.portfolio-thumb-placeholder').style.display='block'">
+          <span class="portfolio-thumb-placeholder" style="display:none">◈</span>
           <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
         </div>
         <div class="portfolio-info">
           <p class="portfolio-type">Paquete combinado · Muestra</p>
           <p class="portfolio-name">Comercio local con operación activa — Estructura y presencia digital integradas</p>
+        </div>
+      </div>
+      <div class="portfolio-item" data-type="diagnostico" onclick="window.open('Fulvor_Portafolio_Caso_03_Diagnostico_Express.pdf','_blank')">
+        <div class="portfolio-thumb">
+          <img src="Fulvor_Portafolio_Caso_03_Diagnostico_Express_cover.png" alt="Tienda Nimba" loading="lazy"
+               onerror="this.style.display='none';this.parentElement.querySelector('.portfolio-thumb-placeholder').style.display='block'">
+          <span class="portfolio-thumb-placeholder" style="display:none">◈</span>
+          <div class="portfolio-thumb-overlay"><span class="overlay-icon">↗</span></div>
+        </div>
+        <div class="portfolio-info">
+          <p class="portfolio-type">DIAGNÓSTICO EXPRESS</p>
+          <p class="portfolio-name">Tienda Nimba</p>
         </div>
       </div>
     </div>
@@ -849,9 +868,10 @@ function aplicarContacto() {
 
 // ── PORTAFOLIO PÚBLICO DESDE LOCALSTORAGE ──
 const TIPO_LABELS = {
-  estrategia: 'Estrategia de contenido',
-  plan:       'Plan de negocio',
-  combinado:  'Paquete combinado'
+  estrategia:  'Estrategia de contenido',
+  plan:        'Plan de negocio',
+  combinado:   'Paquete combinado',
+  diagnostico: 'Diagnóstico Express'
 };
 
 function renderPortafolioPublico() {
@@ -861,9 +881,11 @@ function renderPortafolioPublico() {
 
   grid.innerHTML = piezas.map(p => {
     const label = TIPO_LABELS[p.tipo] || p.tipo;
-    const thumbContent = p.esImagen
-      ? `<img src="${p.archivoData}" alt="${p.titulo}" loading="lazy">`
-      : `<span style="font-size:2.8rem;color:rgba(212,146,15,0.35)">📄</span>`;
+    const thumbContent = p.coverData
+      ? `<img src="${p.coverData}" alt="${p.titulo}" loading="lazy">`
+      : p.esImagen
+        ? `<img src="${p.archivoData}" alt="${p.titulo}" loading="lazy">`
+        : `<span style="font-size:2.8rem;color:rgba(212,146,15,0.35)">📄</span>`;
     return `
       <div class="portfolio-item" data-type="${p.tipo}" onclick="abrirPieza('${p.id}')">
         <div class="portfolio-thumb">
