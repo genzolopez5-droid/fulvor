@@ -518,6 +518,25 @@ nav {
   .portfolio-note { text-align: left; }
   .footer-strip { padding: 0 1.5rem; }
 }
+@media (max-width: 768px) {
+  /* Fix 1 — Hero: centrar verticalmente en lugar de empujar al fondo */
+  #panel-home {
+    justify-content: center;
+    padding-bottom: 3rem;
+  }
+  /* Fix 2 — Scroll táctil: activar overflow scroll explícito para iOS Safari */
+  .panel {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Fix 2 — Contacto: espacio inferior suficiente para que el footer no tape el formulario */
+  #panel-contacto {
+    padding-bottom: 5rem;
+  }
+  .contacto-grid {
+    gap: 2rem;
+  }
+}
 @media (max-width: 560px) {
   .portfolio-grid { grid-template-columns: 1fr; }
   .nav-links button { padding: 0.4rem 0.35rem; font-size: 0.58rem; }
