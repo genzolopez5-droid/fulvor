@@ -500,27 +500,6 @@ nav {
 .footer-left { font-family: var(--serif); font-size: 0.75rem; font-style: italic; color: rgba(122,112,96,0.45); }
 .footer-right { font-size: 0.62rem; letter-spacing: 0.08em; color: rgba(122,112,96,0.3); }
 
-/* SERVICES SCROLL WRAPPER — mobile only */
-.services-scroll-wrap { /* passthrough en escritorio */ }
-
-@media (max-width: 767px) {
-  .services-scroll-wrap {
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-  }
-  .services-scroll-wrap .cards-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 1rem;
-  }
-  .services-scroll-wrap .cards-grid .card {
-    scroll-snap-align: start;
-    min-width: 82vw;
-    flex-shrink: 0;
-  }
-}
-
 /* RESPONSIVE */
 @media (max-width: 900px) {
   nav { padding: 1.2rem 1.5rem; }
@@ -556,6 +535,13 @@ nav {
   }
   .contacto-grid {
     gap: 2rem;
+  }
+  /* Fix 3 — Nav: scroll horizontal para acceder a todos los items en móvil */
+  .nav-links {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    flex-wrap: nowrap;
   }
 }
 @media (max-width: 560px) {
@@ -600,7 +586,6 @@ nav {
       </div>
       <p class="panel-desc">Cada servicio se construye desde el diagnóstico de tu negocio específico, no desde plantillas.</p>
     </div>
-    <div class="services-scroll-wrap">
     <div class="cards-grid">
       <div class="card card-gold">
         <div class="card-top-bar"></div>
@@ -609,7 +594,7 @@ nav {
         <h3 class="card-name">Diagnóstico Express</h3>
         <p class="card-body">Analizamos tu negocio desde adentro, identificamos exactamente dónde está el problema y cuál es el movimiento de mayor impacto que puedes hacer ahora, y lo entregamos con los tres pilares de contenido definidos para tu caso específico.</p>
         <div class="card-price">desde $25</div>
-        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero mi diagnóstico</button>
+        <button class="card-cta" onclick="contactarServicio('Hola, me interesa el Diagnóstico Express ($25). ¿Podemos hablar?')">Quiero mi diagnóstico</button>
       </div>
       <div class="card card-gold">
         <div class="card-top-bar"></div>
@@ -624,7 +609,7 @@ nav {
           <li>Calendario de 30 días listo para ejecutar</li>
           <li>10 ganchos listos para usar</li>
         </ul>
-        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
+        <button class="card-cta" onclick="contactarServicio('Hola, me interesa la Estrategia de Contenido. ¿Podemos hablar?')">Quiero este servicio</button>
       </div>
       <div class="card card-leather">
         <div class="card-top-bar"></div>
@@ -639,7 +624,7 @@ nav {
           <li>Oportunidades inmediatas priorizadas</li>
           <li>Hoja de ruta de implementación accionable</li>
         </ul>
-        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
+        <button class="card-cta" onclick="contactarServicio('Hola, me interesa el Plan de Negocio Estructurado. ¿Podemos hablar?')">Quiero este servicio</button>
       </div>
       <div class="card card-featured">
         <div class="card-top-bar"></div>
@@ -653,7 +638,7 @@ nav {
           <li>Construcción integrada, mayor coherencia</li>
           <li>Un solo intake para los dos entregables</li>
         </ul>
-        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
+        <button class="card-cta" onclick="contactarServicio('Hola, me interesa el Paquete Combinado. ¿Podemos hablar?')">Quiero este servicio</button>
       </div>
       <div class="card card-cream">
         <div class="card-top-bar"></div>
@@ -667,10 +652,9 @@ nav {
           <li>Diagnóstico de desviaciones</li>
           <li>2 a 3 ajustes concretos para el mes</li>
         </ul>
-        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
+        <button class="card-cta" onclick="contactarServicio('Hola, me interesa el Seguimiento Mensual. ¿Podemos hablar?')">Quiero este servicio</button>
       </div>
     </div><!-- /.cards-grid -->
-    </div><!-- /.services-scroll-wrap -->
     <div style="margin-top:2.5rem;text-align:center;">
       <button class="btn-primary" onclick="showPanel('contacto')">Iniciar diagnóstico gratuito</button>
     </div>
@@ -969,6 +953,12 @@ function irAServicio(valor) {
   const sel = document.getElementById('f-servicio');
   if (sel && valor) sel.value = valor;
   sel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── BOTONES DE SERVICIO: copiar mensaje + abrir Instagram ──
+function contactarServicio(mensaje) {
+  navigator.clipboard.writeText(mensaje).catch(function() {});
+  window.open('https://www.instagram.com/agenciafulvor', '_blank');
 }
 
 // ── INIT ──
