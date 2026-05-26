@@ -500,6 +500,27 @@ nav {
 .footer-left { font-family: var(--serif); font-size: 0.75rem; font-style: italic; color: rgba(122,112,96,0.45); }
 .footer-right { font-size: 0.62rem; letter-spacing: 0.08em; color: rgba(122,112,96,0.3); }
 
+/* SERVICES SCROLL WRAPPER — mobile only */
+.services-scroll-wrap { /* passthrough en escritorio */ }
+
+@media (max-width: 767px) {
+  .services-scroll-wrap {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  .services-scroll-wrap .cards-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+  .services-scroll-wrap .cards-grid .card {
+    scroll-snap-align: start;
+    min-width: 82vw;
+    flex-shrink: 0;
+  }
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   nav { padding: 1.2rem 1.5rem; }
@@ -579,7 +600,17 @@ nav {
       </div>
       <p class="panel-desc">Cada servicio se construye desde el diagnóstico de tu negocio específico, no desde plantillas.</p>
     </div>
+    <div class="services-scroll-wrap">
     <div class="cards-grid">
+      <div class="card card-gold">
+        <div class="card-top-bar"></div>
+        <div class="card-num">00</div>
+        <p class="card-tag">Servicio cero</p>
+        <h3 class="card-name">Diagnóstico Express</h3>
+        <p class="card-body">Analizamos tu negocio desde adentro, identificamos exactamente dónde está el problema y cuál es el movimiento de mayor impacto que puedes hacer ahora, y lo entregamos con los tres pilares de contenido definidos para tu caso específico.</p>
+        <div class="card-price">desde $25</div>
+        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero mi diagnóstico</button>
+      </div>
       <div class="card card-gold">
         <div class="card-top-bar"></div>
         <div class="card-num">01</div>
@@ -593,7 +624,7 @@ nav {
           <li>Calendario de 30 días listo para ejecutar</li>
           <li>10 ganchos listos para usar</li>
         </ul>
-        <button class="card-cta" onclick="irAServicio('estrategia')">Quiero este servicio</button>
+        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
       </div>
       <div class="card card-leather">
         <div class="card-top-bar"></div>
@@ -608,7 +639,7 @@ nav {
           <li>Oportunidades inmediatas priorizadas</li>
           <li>Hoja de ruta de implementación accionable</li>
         </ul>
-        <button class="card-cta" onclick="irAServicio('plan')">Quiero este servicio</button>
+        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
       </div>
       <div class="card card-featured">
         <div class="card-top-bar"></div>
@@ -622,7 +653,7 @@ nav {
           <li>Construcción integrada, mayor coherencia</li>
           <li>Un solo intake para los dos entregables</li>
         </ul>
-        <button class="card-cta" onclick="irAServicio('combinado')">Quiero este servicio</button>
+        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
       </div>
       <div class="card card-cream">
         <div class="card-top-bar"></div>
@@ -636,9 +667,10 @@ nav {
           <li>Diagnóstico de desviaciones</li>
           <li>2 a 3 ajustes concretos para el mes</li>
         </ul>
-        <button class="card-cta" onclick="irAServicio('seguimiento')">Quiero este servicio</button>
+        <button class="card-cta" onclick="window.open('https://www.instagram.com/agenciafulvor','_blank')">Quiero este servicio</button>
       </div>
-    </div>
+    </div><!-- /.cards-grid -->
+    </div><!-- /.services-scroll-wrap -->
     <div style="margin-top:2.5rem;text-align:center;">
       <button class="btn-primary" onclick="showPanel('contacto')">Iniciar diagnóstico gratuito</button>
     </div>
@@ -785,25 +817,18 @@ nav {
       <h2 class="contacto-tagline">El diagnóstico<br>no tiene <em>costo.</em><br>El estancamiento, sí.</h2>
       <p class="contacto-body">No hace falta que tengas todo claro. Solo cuéntanos dónde estás y cuál es el problema que no puedes resolver solo. De ahí se construye todo.</p>
       <div class="contact-options">
-        <a class="contact-option" id="wa-link" href="#" target="_blank">
-          <span class="contact-icon">💬</span>
+        <a class="contact-option" href="https://www.instagram.com/agenciafulvor" target="_blank">
+          <span class="contact-icon">◈</span>
           <div>
-            <p class="contact-label">WhatsApp</p>
-            <p class="contact-value">Escríbenos directo</p>
+            <p class="contact-label">Instagram</p>
+            <p class="contact-value">@agenciafulvor</p>
           </div>
         </a>
-        <a class="contact-option" id="tiktok-link" href="#" target="_blank">
+        <a class="contact-option" href="https://www.tiktok.com/@agenciafulvor" target="_blank">
           <span class="contact-icon">▶</span>
           <div>
             <p class="contact-label">TikTok</p>
-            <p class="contact-value">@fulvor</p>
-          </div>
-        </a>
-        <a class="contact-option" id="fb-link" href="#" target="_blank">
-          <span class="contact-icon">◈</span>
-          <div>
-            <p class="contact-label">Facebook</p>
-            <p class="contact-value">Fulvor</p>
+            <p class="contact-value">@agenciafulvor</p>
           </div>
         </a>
       </div>
@@ -842,47 +867,11 @@ nav {
 </div>
 
 <script>
-// ── DEFAULTS si localStorage no tiene nada ──
-const DEFAULTS = {
-  whatsapp: 'TUNUMERO',
-  tiktok:   'https://tiktok.com/@fulvor',
-  facebook: 'https://facebook.com/fulvor'
-};
-
-function getConfig() {
-  try {
-    const raw = localStorage.getItem('fulvor_config');
-    return raw ? { ...DEFAULTS, ...JSON.parse(raw) } : { ...DEFAULTS };
-  } catch { return { ...DEFAULTS }; }
-}
-
 function getPortfolio() {
   try {
     const raw = localStorage.getItem('fulvor_portfolio');
     return raw ? JSON.parse(raw) : [];
   } catch { return []; }
-}
-
-// ── APLICAR CONTACTO DESDE LOCALSTORAGE ──
-function aplicarContacto() {
-  const cfg = getConfig();
-
-  const waLink = document.getElementById('wa-link');
-  waLink.href = cfg.whatsapp && cfg.whatsapp !== 'TUNUMERO'
-    ? `https://wa.me/${cfg.whatsapp.replace(/\D/g, '')}`
-    : '#';
-  waLink.querySelector('.contact-value').textContent =
-    cfg.whatsapp && cfg.whatsapp !== 'TUNUMERO' ? `+${cfg.whatsapp.replace(/\D/g, '')}` : 'Escríbenos directo';
-
-  const tiktokLink = document.getElementById('tiktok-link');
-  tiktokLink.href = cfg.tiktok || '#';
-  tiktokLink.querySelector('.contact-value').textContent =
-    cfg.tiktok ? cfg.tiktok.replace(/^https?:\/\/(www\.)?/i, '') : '@fulvor';
-
-  const fbLink = document.getElementById('fb-link');
-  fbLink.href = cfg.facebook || '#';
-  fbLink.querySelector('.contact-value').textContent =
-    cfg.facebook ? cfg.facebook.replace(/^https?:\/\/(www\.)?/i, '') : 'Fulvor';
 }
 
 // ── PORTAFOLIO PÚBLICO DESDE LOCALSTORAGE ──
@@ -967,13 +956,11 @@ function filterPortfolio(type, btn) {
 
 // ── FORMULARIO → WHATSAPP ──
 function enviarWA() {
-  const cfg    = getConfig();
   const nombre  = document.getElementById('f-nombre').value.trim() || 'sin nombre';
   const servicio = document.getElementById('f-servicio').value || 'por definir';
   const mensaje  = document.getElementById('f-mensaje').value.trim() || '(sin descripción)';
   const texto = `Hola Fulvor, me llamo *${nombre}*.\n\nServicio de interés: ${servicio}\n\nMi situación: ${mensaje}`;
-  const num = cfg.whatsapp !== 'TUNUMERO' ? cfg.whatsapp.replace(/\D/g, '') : '';
-  window.open(`https://wa.me/${num}?text=${encodeURIComponent(texto)}`, '_blank');
+  window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, '_blank');
 }
 
 // ── NAVEGAR A CONTACTO Y PRESELECCIONAR SERVICIO ──
@@ -985,7 +972,6 @@ function irAServicio(valor) {
 }
 
 // ── INIT ──
-aplicarContacto();
 renderPortafolioPublico();
 </script>
 </body>
